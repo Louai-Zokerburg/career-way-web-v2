@@ -96,7 +96,7 @@ const MyJobs = async () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {data.map((listing) => (
+                {data.map((listing: any) => (
                   <TableRow key={listing.id}>
                     <TableCell>
                       {listing.company.logo ? (
