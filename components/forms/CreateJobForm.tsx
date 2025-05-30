@@ -71,6 +71,7 @@ export function CreateJobForm({
       salaryTo: 0,
       companyLogo: companyLogo,
       listingDuration: 30,
+      experienceLevel: "ENTRY",
     },
   });
 
@@ -146,6 +147,35 @@ export function CreateJobForm({
             <div className="grid md:grid-cols-2 gap-6">
               <FormField
                 control={form.control}
+                name="experienceLevel"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Experience Level</FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select Experience Level" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectGroup>
+                          <SelectLabel>Experience Level</SelectLabel>
+                          <SelectItem value="ENTRY">Entry Level</SelectItem>
+                          <SelectItem value="MIDDLE">Mid Level</SelectItem>
+                          <SelectItem value="SENIOR">Senior Level</SelectItem>
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
                 name="location"
                 render={({ field }) => (
                   <FormItem>
@@ -183,7 +213,9 @@ export function CreateJobForm({
                   </FormItem>
                 )}
               />
+            </div>
 
+            <div className="grid md:grid-1 gap-6">
               <FormItem>
                 <FormLabel>Salary Range</FormLabel>
                 <FormControl>

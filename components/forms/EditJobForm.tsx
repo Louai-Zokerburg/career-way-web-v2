@@ -47,6 +47,7 @@ interface iAppProps {
     jobDescription: string;
     benefits: string[];
     listingDuration: number;
+    experienceLevel: string;
     company: {
       location: string;
       name: string;
@@ -76,6 +77,7 @@ export function EditJobForm({ jobPost }: iAppProps) {
       salaryTo: jobPost.salaryTo,
       companyLogo: jobPost.company.logo,
       listingDuration: jobPost.listingDuration,
+      experienceLevel: jobPost.experienceLevel as "ENTRY" | "MIDDLE" | "SENIOR",
     },
   });
 
@@ -153,6 +155,35 @@ export function EditJobForm({ jobPost }: iAppProps) {
             <div className="grid md:grid-cols-2 gap-6">
               <FormField
                 control={form.control}
+                name="experienceLevel"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Experience Level</FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select Experience Level" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectGroup>
+                          <SelectLabel>Experience Level</SelectLabel>
+                          <SelectItem value="ENTRY">Entry Level</SelectItem>
+                          <SelectItem value="MIDDLE">Mid Level</SelectItem>
+                          <SelectItem value="SENIOR">Senior Level</SelectItem>
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
                 name="location"
                 render={({ field }) => (
                   <FormItem>
@@ -190,7 +221,9 @@ export function EditJobForm({ jobPost }: iAppProps) {
                   </FormItem>
                 )}
               />
+            </div>
 
+            <div className="grid md:grid-1 gap-6">
               <FormItem>
                 <FormLabel>Salary Range</FormLabel>
                 <FormControl>

@@ -17,6 +17,7 @@ interface iAppProps {
     employmentType: string;
     location: string;
     createdAt: Date;
+    experienceLevel: string;
     company: {
       logo: string | null;
       name: string;
@@ -25,6 +26,19 @@ interface iAppProps {
     };
   };
 }
+
+const getExperienceLevelDisplay = (level: string) => {
+  switch (level) {
+    case "ENTRY":
+      return "Entry Level";
+    case "MIDDLE":
+      return "Mid Level";
+    case "SENIOR":
+      return "Senior Level";
+    default:
+      return level;
+  }
+};
 
 export function JobCard({ job }: iAppProps) {
   return (
@@ -61,6 +75,12 @@ export function JobCard({ job }: iAppProps) {
                   •
                 </span>
                 <Badge className="rounded-full">{job.location}</Badge>
+                <span className="hidden md:inline text-muted-foreground">
+                  •
+                </span>
+                <Badge className="rounded-full" variant="outline">
+                  {getExperienceLevelDisplay(job.experienceLevel)}
+                </Badge>
                 <span className="hidden md:inline text-muted-foreground">
                   •
                 </span>

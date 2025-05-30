@@ -8,7 +8,11 @@ async function getJobs(
   page: number = 1,
   pageSize: number = 10,
   jobTypes: string[] = [],
-  location: string = ""
+  location: string = "",
+  search: string = "",
+  experienceLevel: string = "",
+  minSalary?: number,
+  maxSalary?: number
 ) {
   const skip = (page - 1) * pageSize;
 
@@ -23,6 +27,25 @@ async function getJobs(
       location !== "worldwide" && {
         location: location,
       }),
+    ...(search && {
+      jobTitle: {
+        contains: search,
+        mode: "insensitive" as const,
+      },
+    }),
+    ...(experienceLevel && {
+      experienceLevel: experienceLevel as "ENTRY" | "MIDDLE" | "SENIOR",
+    }),
+    ...(minSalary && {
+      salaryFrom: {
+        gte: minSalary,
+      },
+    }),
+    ...(maxSalary && {
+      salaryTo: {
+        lte: maxSalary,
+      },
+    }),
   };
 
   const [data, totalCount] = await Promise.all([
@@ -38,6 +61,7 @@ async function getJobs(
         employmentType: true,
         location: true,
         createdAt: true,
+        experienceLevel: true,
         company: {
           select: {
             name: true,
@@ -65,16 +89,24 @@ export default async function JobListings({
   currentPage,
   jobTypes,
   location,
+  search,
+  experienceLevel,
+  minSalary,
+  maxSalary,
 }: {
   currentPage: number;
   jobTypes: string[];
   location: string;
+  search: string;
+  experienceLevel: string;
+  minSalary?: number;
+  maxSalary?: number;
 }) {
   const {
     jobs,
     totalPages,
     currentPage: page,
-  } = await getJobs(currentPage, 7, jobTypes, location);
+  } = await getJobs(currentPage, 7, jobTypes, location, search, experienceLevel, minSalary, maxSalary);
 
   return (
     <>

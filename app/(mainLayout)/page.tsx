@@ -8,6 +8,10 @@ type SearchParamsProps = {
     page?: string;
     jobTypes?: string;
     location?: string;
+    search?: string;
+    experienceLevel?: string;
+    minSalary?: string;
+    maxSalary?: string;
   }>;
 };
 
@@ -16,11 +20,15 @@ export default async function Home({ searchParams }: SearchParamsProps) {
   const currentPage = Number(params.page) || 1;
   const jobTypes = params.jobTypes?.split(",") || [];
   const location = params.location || "";
+  const search = params.search || "";
+  const experienceLevel = params.experienceLevel || "";
+  const minSalary = params.minSalary ? Number(params.minSalary) : undefined;
+  const maxSalary = params.maxSalary ? Number(params.maxSalary) : undefined;
 
   // Create a composite key from all filter parameters
   const filterKey = `page=${currentPage};types=${jobTypes.join(
     ","
-  )};location=${location}`;
+  )};location=${location};search=${search};experience=${experienceLevel};minSalary=${minSalary};maxSalary=${maxSalary}`;
 
   return (
     <div className="grid grid-cols-3 gap-8">
@@ -31,6 +39,10 @@ export default async function Home({ searchParams }: SearchParamsProps) {
             currentPage={currentPage}
             jobTypes={jobTypes}
             location={location}
+            search={search}
+            experienceLevel={experienceLevel}
+            minSalary={minSalary}
+            maxSalary={maxSalary}
           />
         </Suspense>
       </div>

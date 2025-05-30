@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 import { Label } from "@/components/ui/label";
 
-import { X } from "lucide-react";
+import { Search, X } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -28,10 +28,17 @@ export function JobFilters() {
   const searchParams = useSearchParams();
 
   const jobTypes = ["full-time", "part-time", "contract", "internship"];
+  const experienceLevels = [
+    { value: "ENTRY", label: "Entry Level" },
+    { value: "MIDDLE", label: "Mid Level" },
+    { value: "SENIOR", label: "Senior Level" },
+  ];
 
   // Get current filters from URL
   const currentJobTypes = searchParams.get("jobTypes")?.split(",") || [];
   const currentLocation = searchParams.get("location") || "";
+  const currentSearch = searchParams.get("search") || "";
+  const currentExperienceLevel = searchParams.get("experienceLevel") || "";
   const currentMinSalary = searchParams.get("minSalary") || "";
   const currentMaxSalary = searchParams.get("maxSalary") || "";
 
@@ -66,6 +73,14 @@ export function JobFilters() {
     router.push(`?${createQueryString("location", location)}`);
   };
 
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    router.push(`?${createQueryString("search", e.target.value)}`);
+  };
+
+  const handleExperienceLevelChange = (level: string) => {
+    router.push(`?${createQueryString("experienceLevel", level)}`);
+  };
+
   const handleMinSalaryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     router.push(`?${createQueryString("minSalary", e.target.value)}`);
   };
@@ -97,6 +112,20 @@ export function JobFilters() {
       </CardHeader>
       <CardContent className="space-y-6">
         <div className="space-y-4">
+          <Label className="text-lg font-semibold">Search Jobs</Label>
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+            <Input
+              type="text"
+              placeholder="Search by job title..."
+              value={currentSearch}
+              onChange={handleSearchChange}
+              className="pl-10"
+            />
+          </div>
+        </div>
+        <Separator />
+        <div className="space-y-4">
           <Label className="text-lg font-semibold">Job Type</Label>
           <div className="grid grid-cols-2 gap-4">
             {jobTypes.map((type) => (
@@ -117,6 +146,25 @@ export function JobFilters() {
               </div>
             ))}
           </div>
+        </div>
+        <Separator />
+        <div className="space-y-4">
+          <Label className="text-lg font-semibold">Experience Level</Label>
+          <Select value={currentExperienceLevel} onValueChange={handleExperienceLevelChange}>
+            <SelectTrigger>
+              <SelectValue placeholder="Select Experience Level" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Experience Level</SelectLabel>
+                {experienceLevels.map((level) => (
+                  <SelectItem value={level.value} key={level.value}>
+                    {level.label}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
         </div>
         <Separator />
         <div className="space-y-4">

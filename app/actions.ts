@@ -143,6 +143,7 @@ export async function createJob(data: z.infer<typeof jobSchema>) {
       salaryTo: validatedData.salaryTo,
       listingDuration: validatedData.listingDuration,
       benefits: validatedData.benefits,
+      experienceLevel: validatedData.experienceLevel as "ENTRY" | "MIDDLE" | "SENIOR",
       status: "ACTIVE",
       applications: 0,
     },
@@ -219,6 +220,7 @@ export async function updateJobPost(
       salaryTo: validatedData.salaryTo,
       listingDuration: validatedData.listingDuration,
       benefits: validatedData.benefits,
+      experienceLevel: validatedData.experienceLevel as "ENTRY" | "MIDDLE" | "SENIOR",
     },
   });
 

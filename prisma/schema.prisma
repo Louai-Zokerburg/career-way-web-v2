@@ -131,6 +131,7 @@ model JobPost {
   jobDescription  String
   listingDuration Int
   benefits        String[]
+  experienceLevel ExperienceLevel @default(ENTRY)
 
   status       JobPostStatus @default(DRAFT)
   applications Int           @default(0)
@@ -147,6 +148,12 @@ enum JobPostStatus {
   DRAFT
   ACTIVE
   EXPIRED
+}
+
+enum ExperienceLevel {
+  ENTRY
+  MIDDLE
+  SENIOR
 }
 
 model SavedJobPost {
