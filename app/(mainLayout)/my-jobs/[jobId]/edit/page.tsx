@@ -29,7 +29,6 @@ async function getJobPost({
       experienceLevel: true,
       location: true,
       employmentType: true,
-      listingDuration: true,
       company: {
         select: {
           about: true,

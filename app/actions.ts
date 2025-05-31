@@ -5,12 +5,9 @@ import { requireUser } from "./utils/hooks";
 import { companySchema, jobSchema, jobSeekerSchema } from "./utils/zodSchemas";
 import { prisma } from "./utils/db";
 import { redirect } from "next/navigation";
-import { stripe } from "./utils/stripe";
-import { jobListingDurationPricing } from "./utils/pricingTiers";
 import { revalidatePath } from "next/cache";
 import arcjet, { detectBot, shield } from "./utils/arcjet";
 import { request } from "@arcjet/next";
-import { inngest } from "./utils/inngest/client";
 
 const aj = arcjet
   .withRule(
@@ -103,11 +100,6 @@ export async function createJob(data: z.infer<typeof jobSchema>) {
     },
     select: {
       id: true,
-      user: {
-        select: {
-          stripeCustomerId: true,
-        },
-      },
     },
   });
 
@@ -115,24 +107,7 @@ export async function createJob(data: z.infer<typeof jobSchema>) {
     return redirect("/");
   }
 
-  let stripeCustomerId = company.user.stripeCustomerId;
-
-  if (!stripeCustomerId) {
-    const customer = await stripe.customers.create({
-      email: user.email!,
-      name: user.name || undefined,
-    });
-
-    stripeCustomerId = customer.id;
-
-    // Update user with Stripe customer ID
-    await prisma.user.update({
-      where: { id: user.id },
-      data: { stripeCustomerId: customer.id },
-    });
-  }
-
-  const jobPost = await prisma.jobPost.create({
+  await prisma.jobPost.create({
     data: {
       companyId: company.id,
       jobDescription: validatedData.jobDescription,
@@ -141,7 +116,6 @@ export async function createJob(data: z.infer<typeof jobSchema>) {
       location: validatedData.location,
       salaryFrom: validatedData.salaryFrom,
       salaryTo: validatedData.salaryTo,
-      listingDuration: validatedData.listingDuration,
       benefits: validatedData.benefits,
       experienceLevel: validatedData.experienceLevel as "ENTRY" | "MIDDLE" | "SENIOR",
       status: "ACTIVE",
@@ -149,51 +123,7 @@ export async function createJob(data: z.infer<typeof jobSchema>) {
     },
   });
 
-  // Trigger the job expiration function
-  await inngest.send({
-    name: "job/created",
-    data: {
-      jobId: jobPost.id,
-      expirationDays: validatedData.listingDuration,
-    },
-  });
-
-  // Get price from pricing tiers based on duration
-  const pricingTier = jobListingDurationPricing.find(
-    (tier) => tier.days === validatedData.listingDuration
-  );
-
-  if (!pricingTier) {
-    throw new Error("Invalid listing duration selected");
-  }
-
-  const session = await stripe.checkout.sessions.create({
-    customer: stripeCustomerId,
-    line_items: [
-      {
-        price_data: {
-          product_data: {
-            name: `Job Posting - ${pricingTier.days} Days`,
-            description: pricingTier.description,
-            images: [
-              "https://pve1u6tfz1.ufs.sh/f/Ae8VfpRqE7c0gFltIEOxhiBIFftvV4DTM8a13LU5EyzGb2SQ",
-            ],
-          },
-          currency: "USD",
-          unit_amount: pricingTier.price * 100, // Convert to cents for Stripe
-        },
-        quantity: 1,
-      },
-    ],
-    mode: "payment",
-    metadata: {
-      jobId: jobPost.id,
-    },
-    success_url: `${process.env.NEXT_PUBLIC_URL}/payment/success`,
-    cancel_url: `${process.env.NEXT_PUBLIC_URL}/payment/cancel`,
-  });
-
-  return redirect(session.url as string);
+  return redirect("/");
 }
 
 export async function updateJobPost(
@@ -218,7 +148,6 @@ export async function updateJobPost(
       location: validatedData.location,
       salaryFrom: validatedData.salaryFrom,
       salaryTo: validatedData.salaryTo,
-      listingDuration: validatedData.listingDuration,
       benefits: validatedData.benefits,
       experienceLevel: validatedData.experienceLevel as "ENTRY" | "MIDDLE" | "SENIOR",
     },

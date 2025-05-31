@@ -46,7 +46,6 @@ interface iAppProps {
     salaryTo: number;
     jobDescription: string;
     benefits: string[];
-    listingDuration: number;
     experienceLevel: string;
     company: {
       location: string;
@@ -76,7 +75,6 @@ export function EditJobForm({ jobPost }: iAppProps) {
       salaryFrom: jobPost.salaryFrom,
       salaryTo: jobPost.salaryTo,
       companyLogo: jobPost.company.logo,
-      listingDuration: jobPost.listingDuration,
       experienceLevel: jobPost.experienceLevel as "ENTRY" | "MIDDLE" | "SENIOR",
     },
   });

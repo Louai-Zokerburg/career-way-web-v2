@@ -31,6 +31,5 @@ export const jobSchema = z.object({
   companyWebsite: z.string().min(1, "Company website is required"),
   companyXAccount: z.string().optional(),
   companyDescription: z.string().min(1, "Company description is required"),
-  listingDuration: z.number().min(1, "Listing duration is required"),
   experienceLevel: z.enum(["ENTRY", "MIDDLE", "SENIOR"]),
 });

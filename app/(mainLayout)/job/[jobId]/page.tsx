@@ -46,7 +46,6 @@ async function getJob(jobId: string, userId?: string) {
         benefits: true,
 
         createdAt: true,
-        listingDuration: true,
         company: {
           select: {
             name: true,
@@ -206,16 +205,6 @@ const JobIdPage = async ({ params }: { params: Params }) => {
                 <div className="flex justify-between">
                   <span className="text-sm text-muted-foreground">
                     Apply before
-                  </span>
-                  <span className="text-sm">
-                    {new Date(
-                      jobData.createdAt.getTime() +
-                        jobData.listingDuration * 24 * 60 * 60 * 1000
-                    ).toLocaleDateString("en-US", {
-                      month: "long",
-                      day: "numeric",
-                      year: "numeric",
-                    })}
                   </span>
                 </div>
                 <div className="flex justify-between">

@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/select";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Checkbox } from "../ui/checkbox";
 import { countryList } from "@/app/utils/countriesList";
 import { Separator } from "../ui/separator";
@@ -41,6 +41,24 @@ export function JobFilters() {
   const currentExperienceLevel = searchParams.get("experienceLevel") || "";
   const currentMinSalary = searchParams.get("minSalary") || "";
   const currentMaxSalary = searchParams.get("maxSalary") || "";
+
+  // Local state for debounced search
+  const [searchTerm, setSearchTerm] = useState(currentSearch);
+
+  // Debounced search effect
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const params = new URLSearchParams(searchParams.toString());
+      if (searchTerm) {
+        params.set("search", searchTerm);
+      } else {
+        params.delete("search");
+      }
+      router.push(`?${params.toString()}`);
+    }, 500); // 500ms debounce
+
+    return () => clearTimeout(timer);
+  }, [searchTerm, router, searchParams]);
 
   const createQueryString = useCallback(
     (name: string, value: string) => {
@@ -74,7 +92,7 @@ export function JobFilters() {
   };
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    router.push(`?${createQueryString("search", e.target.value)}`);
+    setSearchTerm(e.target.value);
   };
 
   const handleExperienceLevelChange = (level: string) => {
@@ -90,6 +108,7 @@ export function JobFilters() {
   };
 
   const clearFilters = () => {
+    setSearchTerm("");
     router.push("/");
   };
 
@@ -118,7 +137,7 @@ export function JobFilters() {
             <Input
               type="text"
               placeholder="Search by job title..."
-              value={currentSearch}
+              value={searchTerm}
               onChange={handleSearchChange}
               className="pl-10"
             />

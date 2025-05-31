@@ -34,7 +34,6 @@ import { jobSchema } from "@/app/utils/zodSchemas";
 import { SalaryRangeSelector } from "../general/SalaryRangeSelector";
 import JobDescriptionEditor from "../richTextEditor/JobDescriptionEditor";
 import BenefitsSelector from "../general/BenefitsSelector";
-import { JobListingDurationSelector } from "../general/JobListingDurationSelector";
 import { createJob } from "@/app/actions";
 
 interface CreateJobFormProps {
@@ -70,7 +69,6 @@ export function CreateJobForm({
       salaryFrom: 0,
       salaryTo: 0,
       companyLogo: companyLogo,
-      listingDuration: 30,
       experienceLevel: "ENTRY",
     },
   });
@@ -438,27 +436,8 @@ export function CreateJobForm({
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Job Listing Duration</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <FormField
-              control={form.control}
-              name="listingDuration"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <JobListingDurationSelector field={field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </CardContent>
-        </Card>
         <Button type="submit" className="w-full" disabled={pending}>
-          {pending ? "Submitting..." : "Continue"}
+          {pending ? "Posting Job..." : "Post Job"}
         </Button>
       </form>
     </Form>

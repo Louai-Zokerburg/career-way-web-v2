@@ -129,7 +129,6 @@ model JobPost {
   salaryFrom      Int
   salaryTo        Int
   jobDescription  String
-  listingDuration Int
   benefits        String[]
   experienceLevel ExperienceLevel @default(ENTRY)
 
