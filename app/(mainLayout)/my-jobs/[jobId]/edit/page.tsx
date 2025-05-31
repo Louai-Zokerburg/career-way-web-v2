@@ -26,6 +26,7 @@ async function getJobPost({
       jobDescription: true,
       salaryTo: true,
       salaryFrom: true,
+      experienceLevel: true,
       location: true,
       employmentType: true,
       listingDuration: true,
