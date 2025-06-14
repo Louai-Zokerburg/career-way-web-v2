@@ -146,7 +146,7 @@ export function JobFilters() {
         <Separator />
         <div className="space-y-4">
           <Label className="text-lg font-semibold">Job Type</Label>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {jobTypes.map((type) => (
               <div key={type} className="flex items-center space-x-2">
                 <Checkbox

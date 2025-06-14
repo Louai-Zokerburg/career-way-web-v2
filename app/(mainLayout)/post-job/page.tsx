@@ -77,17 +77,19 @@ const PostJobPage = async () => {
   const session = await requireUser();
   const data = await getCompany(session.id as string);
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-5">
-      <CreateJobForm
-        companyAbout={data.about}
-        companyLocation={data.location}
-        companyLogo={data.logo}
-        companyName={data.name}
-        companyXAccount={data.xAccount}
-        companyWebsite={data.website}
-      />
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6 mt-5">
+      <div className="order-2 lg:order-1 lg:col-span-2">
+        <CreateJobForm
+          companyAbout={data.about}
+          companyLocation={data.location}
+          companyLogo={data.logo}
+          companyName={data.name}
+          companyXAccount={data.xAccount}
+          companyWebsite={data.website}
+        />
+      </div>
 
-      <div className="col-span-1">
+      <div className="order-1 lg:order-2 col-span-1">
         <Card className="lg:sticky lg:top-4">
           <CardHeader>
             <CardTitle className="text-xl">

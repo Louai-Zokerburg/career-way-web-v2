@@ -83,18 +83,19 @@ const MyJobs = async () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Logo</TableHead>
-                  <TableHead>Company</TableHead>
-                  <TableHead>Job Title</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Applicants</TableHead>
-                  <TableHead>Created On</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
+            <div className="overflow-x-auto">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="w-16">Logo</TableHead>
+                    <TableHead className="min-w-[120px]">Company</TableHead>
+                    <TableHead className="min-w-[150px]">Job Title</TableHead>
+                    <TableHead className="min-w-[100px]">Status</TableHead>
+                    <TableHead className="min-w-[100px]">Applicants</TableHead>
+                    <TableHead className="min-w-[120px]">Created On</TableHead>
+                    <TableHead className="text-right min-w-[100px]">Actions</TableHead>
+                  </TableRow>
+                </TableHeader>
               <TableBody>
                 {data.map((listing: any) => (
                   <TableRow key={listing.id}>
@@ -160,7 +161,8 @@ const MyJobs = async () => {
                   </TableRow>
                 ))}
               </TableBody>
-            </Table>
+              </Table>
+            </div>
           </CardContent>
         </Card>
       )}

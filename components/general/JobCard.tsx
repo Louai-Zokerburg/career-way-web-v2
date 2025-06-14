@@ -44,67 +44,70 @@ export function JobCard({ job }: iAppProps) {
   return (
     <Link href={`/job/${job.id}`}>
       <Card className="hover:shadow-lg transition-all duration-300 hover:border-primary relative">
-        <CardHeader>
-          <div className="flex flex-col md:flex-row gap-4">
-            {job.company.logo ? (
-              <Image
-                src={job.company.logo}
-                alt={job.company.name}
-                width={48}
-                height={48}
-                className="size-12 rounded-lg"
-              />
-            ) : (
-              <div className="bg-red-500 size-12 rounded-lg flex items-center justify-center">
-                <User2 className="size-6 text-white" />
-              </div>
-            )}
-            <div className="flex flex-col flex-grow">
-              <h1 className="text-xl md:text-2xl font-bold">{job.jobTitle}</h1>
-              <div className="flex flex-wrap items-center gap-2">
+        <CardHeader className="p-4 sm:p-6">
+          <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex-shrink-0">
+              {job.company.logo ? (
+                <Image
+                  src={job.company.logo}
+                  alt={job.company.name}
+                  width={48}
+                  height={48}
+                  className="size-12 rounded-lg"
+                />
+              ) : (
+                <div className="bg-red-500 size-12 rounded-lg flex items-center justify-center">
+                  <User2 className="size-6 text-white" />
+                </div>
+              )}
+            </div>
+            <div className="flex flex-col flex-grow min-w-0">
+              <h1 className="text-lg sm:text-xl lg:text-2xl font-bold truncate">{job.jobTitle}</h1>
+              <div className="flex flex-wrap items-center gap-1 sm:gap-2 mt-1">
                 <p className="text-sm text-muted-foreground">
                   {job.company.name}
                 </p>
-                <span className="hidden md:inline text-muted-foreground">
+                <span className="hidden sm:inline text-muted-foreground text-xs">
                   •
                 </span>
-                <Badge className="rounded-full" variant="secondary">
+                <Badge className="rounded-full text-xs" variant="secondary">
                   {job.employmentType}
                 </Badge>
-                <span className="hidden md:inline text-muted-foreground">
+                <span className="hidden sm:inline text-muted-foreground text-xs">
                   •
                 </span>
-                <Badge className="rounded-full">{job.location}</Badge>
-                <span className="hidden md:inline text-muted-foreground">
+                <Badge className="rounded-full text-xs">{job.location}</Badge>
+                <span className="hidden sm:inline text-muted-foreground text-xs">
                   •
                 </span>
-                <Badge className="rounded-full" variant="outline">
+                <Badge className="rounded-full text-xs" variant="outline">
                   {getExperienceLevelDisplay(job.experienceLevel)}
                 </Badge>
-                <span className="hidden md:inline text-muted-foreground">
+              </div>
+              <div className="flex flex-wrap items-center gap-2 mt-2">
+                <p className="text-sm text-muted-foreground">
+                  {formatCurrency(job.salaryFrom)} - {formatCurrency(job.salaryTo)}
+                </p>
+                <span className="hidden sm:inline text-muted-foreground text-xs">
                   •
                 </span>
                 <p className="text-sm text-muted-foreground">
-                  {formatCurrency(job.salaryFrom)} -
-                  {formatCurrency(job.salaryTo)}
+                  {formatRelativeTime(job.createdAt)}
                 </p>
               </div>
             </div>
 
-            <div className="md:ml-auto">
+            <div className="flex sm:flex-col items-start sm:items-end justify-between sm:justify-start sm:ml-auto flex-shrink-0">
               <div className="flex items-center gap-2">
                 <MapPin className="size-4" />
-                <h1 className="text-base md:text-lg font-semibold whitespace-nowrap">
+                <h1 className="text-sm sm:text-base lg:text-lg font-semibold">
                   {job.location}
                 </h1>
               </div>
-              <p className="text-sm text-muted-foreground md:text-right">
-                {formatRelativeTime(job.createdAt)}
-              </p>
             </div>
           </div>
-          <div className="!mt-5">
-            <p className="text-base text-muted-foreground line-clamp-2">
+          <div className="!mt-4">
+            <p className="text-sm sm:text-base text-muted-foreground line-clamp-2">
               {job.company.about}
             </p>
           </div>
