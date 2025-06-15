@@ -1,6 +1,7 @@
 import { JobFilters } from "@/components/general/JobFilters";
 import JobListings from "@/components/general/JobListings";
 import JobListingsLoading from "@/components/general/JobListingsLoading";
+import { Separator } from "@/components/ui/separator";
 import { Suspense } from "react";
 
 type SearchParamsProps = {
@@ -31,11 +32,11 @@ export default async function Home({ searchParams }: SearchParamsProps) {
   )};location=${location};search=${search};experience=${experienceLevel};minSalary=${minSalary};maxSalary=${maxSalary}`;
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-8">
-      <div className="order-2 lg:order-1">
+    <div className="flex gap-6 w-full flex-col lg:flex-row">
         <JobFilters />
-      </div>
-      <div className="col-span-1 lg:col-span-2 flex flex-col gap-6 order-1 lg:order-2">
+
+        <Separator orientation="horizontal" className="w-full lg:hidden" />
+
         <Suspense key={filterKey} fallback={<JobListingsLoading />}>
           <JobListings
             currentPage={currentPage}
@@ -47,7 +48,6 @@ export default async function Home({ searchParams }: SearchParamsProps) {
             maxSalary={maxSalary}
           />
         </Suspense>
-      </div>
     </div>
   );
 }

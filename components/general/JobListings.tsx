@@ -109,7 +109,7 @@ export default async function JobListings({
   } = await getJobs(currentPage, 7, jobTypes, location, search, experienceLevel, minSalary, maxSalary);
 
   return (
-    <>
+    <div className="w-full flex flex-col gap-6">
       {jobs.length > 0 ? (
         <div className="flex flex-col gap-6">
           {jobs.map((job, index) => (
@@ -128,6 +128,6 @@ export default async function JobListings({
       <div className="flex justify-center mt-6">
         <PaginationComponent totalPages={totalPages} currentPage={page} />
       </div>
-    </>
+    </div>
   );
 }
