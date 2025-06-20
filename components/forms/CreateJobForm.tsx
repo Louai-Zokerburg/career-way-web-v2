@@ -79,8 +79,10 @@ export function CreateJobForm({
       setPending(true);
 
       await createJob(values);
+
+      toast.info("Job posted successfully!");
     } catch {
-      toast.error("Something went wrong. Please try again.");
+      console.log("error");
     } finally {
       setPending(false);
     }

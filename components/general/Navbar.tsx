@@ -40,7 +40,7 @@ export async function Navbar() {
     <nav className="py-5 border-b">
       <div className="container mx-auto flex justify-between items-center px-4">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2">
+        <Link href="/" className="flex items-center">
           <Image src={Logo} alt="Areerway Logo" width={40} height={40} />
           <h1 className="text-2xl font-bold">
             <span className="text-primary">Areerway</span>
