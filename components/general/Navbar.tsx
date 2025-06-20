@@ -43,7 +43,7 @@ export async function Navbar() {
         <Link href="/" className="flex items-center">
           <Image src={Logo} alt="Areerway Logo" width={40} height={40} />
           <h1 className="text-2xl font-bold">
-            <span className="text-primary">Areerway</span>
+            <span className="text-primary">Careerway</span>
           </h1>
         </Link>
 
