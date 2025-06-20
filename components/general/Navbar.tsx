@@ -41,9 +41,9 @@ export async function Navbar() {
       <div className="container mx-auto flex justify-between items-center px-4">
         {/* Logo */}
         <Link href="/" className="flex items-center">
-          <Image src={Logo} alt="Areerway Logo" width={40} height={40} />
+          <Image src={Logo} alt="Careerway Logo" width={40} height={40} />
           <h1 className="text-2xl font-bold">
-            <span className="text-primary">Careerway</span>
+            <span className="text-primary">areerway</span>
           </h1>
         </Link>
 
